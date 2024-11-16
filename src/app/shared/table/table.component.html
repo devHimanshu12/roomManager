@@ -1,0 +1,37 @@
+<div class="room-details">
+  <h1 class="room-details__title">{{ roomName }} Details</h1>
+
+  <p *ngIf="meetings.length === 0" class="room-details__no-meetings">
+    No meetings scheduled for this room.
+  </p>
+</div>
+<table class="room-details__table">
+  <thead>
+    <tr>
+      <th class="room-details__header">Username</th>
+      <th class="room-details__header">Date</th>
+      <th class="room-details__header">Time</th>
+      <th class="room-details__header">Agenda</th>
+      <th class="room-details__header">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for(meeting of meetings; track meeting.id){
+      <tr>
+        <td class="room-details__cell">{{ meeting.username }}</td>
+        <td class="room-details__cell">
+          {{ meeting.timeFrom }} - {{ meeting.timeTo }}
+        </td>
+        <td class="room-details__cell">{{ meeting.agenda }}</td>
+        <td class="room-details__cell">
+          <button
+            class="room-details__button room-details__button--delete"
+            (click)="deleteMeeting(meeting.id)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

@@ -1,0 +1,40 @@
+@import './../../styles/index.scss';
+
+.login-container{
+  width: 80vw;
+  height: 100vh;
+  @include display-flex();
+
+  &__left{
+    width: 50%;
+    border: 1px solid transparent;
+    padding: 40px 20px;
+    border-radius: 8px;
+    background-color: $white;
+    @include display-flex($direction:column);
+    &--username,&--password{
+      @include display-flex($direction:column,$justify:null,$align:null);
+      margin: 8px;
+      &__label{
+        color: $secondary-color;
+      }
+      input{
+        width: 350px;
+        padding: 8px 4px;
+        line-height: 22px;
+        border-radius: 4px;
+        border: 1px solid $secondary-color;
+      }
+    }
+    &--submit-btn{
+      margin: 12px 8px;
+      width: 360px;
+      padding: 6px;
+      color:$white;
+      background-color: $primary-color;
+      border-radius: 4px;
+
+    }
+  }
+
+}
