@@ -1,8 +1,15 @@
 @import './../../styles/index.scss';
 
 .dashboard-container{
+  @include display-flex($direction:column);
+
+  &__header{
+    width: 100%;
+    top: 0;
+  }
   &__section{
     width: 100vw;
+
     @include display-flex();
     &__main{
       padding: 24px 16px;
@@ -41,6 +48,9 @@
       width: 75vw;
     }
   }
+  &__message{
+    color: $secondary-color;
+  }
 }
 
 
@@ -53,6 +63,21 @@
   width: 250px;
   font-size: 14px;
   font-weight: 600;
+}
+
+@media screen and (max-width:600px) {
+  .dashboard-container{
+    &__section{
+      &__main{
+        width: calc(100vw - 12px);
+        &__upcoming-meetings,&__room-details{
+          width: calc(100vw - 12px);
+        }
+      }
+
+    }
+  }
+
 }
 
 

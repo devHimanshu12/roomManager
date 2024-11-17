@@ -28,3 +28,17 @@
     }
   }
 }
+
+@media screen and (max-width:600px) {
+  .room-details{
+    width: calc(100vw - 12px);
+    overflow-x: auto;
+    &__table{
+      width: calc(100vw - 12px);
+      padding:12px;
+      td{
+        width: 200px;
+      }
+    }
+  }
+}

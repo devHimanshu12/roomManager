@@ -114,3 +114,19 @@
     }
   }
 }
+
+@media screen and (max-width:600px){
+  .book-meeting{
+    padding: 0;
+    &__header{
+      h1{
+        margin: 0;
+        padding: 0;
+      }
+    }
+    &__title{
+      padding: 0;
+      font-size: 16px;
+    }
+  }
+}

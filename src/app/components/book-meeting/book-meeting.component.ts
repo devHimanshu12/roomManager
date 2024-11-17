@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { AuthService } from '../../auth/auth.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MeetingsService } from '../../services/meetings.service';
 import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { LayoutService } from '../../services/layout.service';
 
 @Component({
   selector: 'app-book-meeting',
@@ -24,10 +26,13 @@ export class BookMeetingComponent implements OnInit {
   showStatusDialog:boolean = false;
 
   constructor(private fb: FormBuilder,private authService:AuthService,
+    private layoutService:LayoutService,
     private dialog:MatDialog,
-    private dialogRef: MatDialogRef<BookMeetingComponent>,
+    @Optional() public dialogRef: MatDialogRef<BookMeetingComponent>,
+    @Optional() public bottomSheetRef:MatBottomSheetRef<BookMeetingComponent>,
     private meetingService:MeetingsService
   ){
+
 
     const today = new Date();
     // to disable previous date in date picker input
@@ -183,7 +188,7 @@ export class BookMeetingComponent implements OnInit {
     this.handleSearchRoom(false)
     if(this.showStatusDialog){
       const dialogRef = this.dialog.open(StatusDialogComponent, {
-        width: '60vw',
+        width: this.layoutService.getSmallDevice() ? '100vw' : '60vw',
         maxWidth:'none',
         data: {
           date: this.meetingForm.get('date')?.value ,
@@ -201,7 +206,11 @@ export class BookMeetingComponent implements OnInit {
   }
 
   closeDialog(){
-    this.dialogRef.close()
+    if(this.layoutService.getSmallDevice()){
+      this.bottomSheetRef.dismiss()
+    }else{
+      this.dialogRef.close()
+    }
   }
 
 

@@ -5,6 +5,7 @@
   <section class="dashboard-container__section">
     <div class="dashboard-container__section__main">
         <button class="dashboard-container__section__main--booking-btn" (click)="handleDialog()">Book Meeting</button>
+
         <div class="dashboard-container__section__main__upcoming-meetings">
           <h4> Your Upcoming Meetings</h4>
           <app-table [displayColumns]="meetingColumns" [items]="upcomingMeetings" [isAction]="true" (emitDeletedItem)="handleDelete($event)"/>
@@ -23,6 +24,9 @@
         </div>
     </div>
   </section>
+  <div class="dashboard-container__message">
+    ** To check which rooms are <i>Available, In use or Booked</i>  status Click on <b>Book Meeting</b>.
+  </div>
 </div>
 
 

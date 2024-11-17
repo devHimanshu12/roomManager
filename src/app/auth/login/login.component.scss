@@ -2,20 +2,18 @@
 
 .login-container {
   display: flex;
-  height: 100vh; /* Full height */
-    // @include display-flex($justify: flex-end);
+  height: 100vh;
 
   &__left {
+    @include display-flex($direction:column);
+    gap:30px;
     flex: 1;
     background-color: #f7f9fb;
-    /* Light background for consistency */
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-weight: 700;
     font-style: italic;
-    line-height: 24px;
+    line-height: 28px;
     font-size: 24px;
+    color: $primary-color;
 
   }
 
@@ -78,4 +76,39 @@
     }
   }
 
+}
+
+.notes{
+  font-size: 16px;
+  font-weight: 500;
+  color: $dark-color;
+  &__label{
+    padding: 0 40px;
+    font-weight: 600;
+  }
+}
+
+@media screen and (max-width:600px) {
+  .login-container{
+    padding: 12px 0;
+    flex-direction: column;
+    &__left{
+      font-size: 18px;
+      text-align: center;
+    }
+    &__right{
+      padding: 12px;
+      h4{
+        font-size: 24px;
+      }
+    }
+  }
+  .notes{
+    font-size: 14px;
+    text-align: left;
+    &__label{
+      padding: 0 20px;
+
+    }
+  }
 }

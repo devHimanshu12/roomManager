@@ -83,3 +83,16 @@
     }
   }
 }
+
+@media screen and (max-width:600px){
+  .status-dialog{
+    height: 100vh;
+    overflow: auto;
+    .__container{
+      flex-direction: column;
+    }
+    &__footer{
+      margin-bottom: 20px;
+    }
+  }
+}
