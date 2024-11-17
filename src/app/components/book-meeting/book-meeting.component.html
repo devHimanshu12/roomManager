@@ -1,8 +1,10 @@
 <div class="book-meeting">
-  <h1 class="book-meeting__title">Book a Meeting Room</h1>
-  <button>
-
-  </button>
+  <div class="book-meeting__header">
+    <h1 class="book-meeting__title">Book a Meeting Room</h1>
+    <button class="book-meeting__close" (click)="closeDialog()">
+      <img src="x-light.svg" alt="">
+    </button>
+  </div>
   <form class="book-meeting__form" (ngSubmit)="onSubmit()" [formGroup]="meetingForm">
     <div class="book-meeting__field">
       <label for="username" class="book-meeting__label">Username</label>
@@ -77,8 +79,11 @@
       </div>
     </div>
     @if(!isSearchRoomClicked){
+      <div class="book-meeting__error">**The meeting rooms can be booked between 9:00AM and 6:00PM on Monday to Friday. The duration for the meetings to be scheduled
+        should be minimum 30 minutes.</div>
     <div class="search-room">
-      <button class="search-room--btn" type="button" (click)="handleSearchRoom()">Search Room</button>
+      <button class="search-room--btn" type="button" (click)="handleSearchRoom(true)">Search Room</button>
+      <button class="search-room--btn" type="button" (click)="checkStatus()">Check Status</button>
     </div>
     }@else{
       <div class="book-meeting__field">

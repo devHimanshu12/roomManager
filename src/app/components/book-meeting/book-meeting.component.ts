@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
-
-import { ROOMS } from '../../data';
 import { AuthService } from '../../auth/auth.service';
-import { min } from 'rxjs';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MeetingsService } from '../../services/meetings.service';
+import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
 
 @Component({
   selector: 'app-book-meeting',
@@ -21,9 +19,12 @@ export class BookMeetingComponent implements OnInit {
   isSearchRoomClicked:boolean = false;
   minDate!:string;
   currentTime!:string;
-  availableRooms:any[]=[]
+  availableRooms:any[]=[];
+  rooms: any[] = [];
+  showStatusDialog:boolean = false;
 
   constructor(private fb: FormBuilder,private authService:AuthService,
+    private dialog:MatDialog,
     private dialogRef: MatDialogRef<BookMeetingComponent>,
     private meetingService:MeetingsService
   ){
@@ -37,6 +38,12 @@ export class BookMeetingComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
+    this.rooms = this.meetingService.rooms.map((room) => ({
+      ...room,
+      status: 'Available',
+      user: null,
+      currentMeeting: null,
+    }));
   }
 
   /**
@@ -111,7 +118,7 @@ export class BookMeetingComponent implements OnInit {
       const meetings = JSON.parse(localStorage.getItem('meetings') || '[]');
       meetings.push(meetingDetails);
       localStorage.setItem('meetings', JSON.stringify(meetings));
-      
+
       // Reset the form after successful submission
       this.meetingForm.reset();
       this.dialogRef.close()
@@ -128,14 +135,12 @@ export class BookMeetingComponent implements OnInit {
   }
 
 
-  handleSearchRoom(){
+  handleSearchRoom(isSearchClicked:boolean){
     const x = new Date()
     const today = new Date(x.getFullYear(),x.getMonth(),x.getDate())
     const myDate = new Date(this.meetingForm.get('date')?.value)
     const currentTime = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})
-
     const inputFromTime = this.meetingForm.get('from')?.value
-    console.log(currentTime,inputFromTime)
     if(today.toDateString() === myDate.toDateString()){
       if(inputFromTime <= currentTime){
         alert('Please select time more than current time or select date other than today')
@@ -165,12 +170,38 @@ export class BookMeetingComponent implements OnInit {
       return;
     }
 
+    this.showStatusDialog = true;
     const date = this.meetingForm.get('date')?.value;
     const fromTime = this.meetingForm.get('from')?.value;
     const toTime = this.meetingForm.get('to')?.value
 
     this.availableRooms = this.meetingService.fetchAvailableRooms(date,fromTime,toTime)
-    this.isSearchRoomClicked = true;
+    this.isSearchRoomClicked = isSearchClicked;
+  }
+
+  checkStatus(){
+    this.handleSearchRoom(false)
+    if(this.showStatusDialog){
+      const dialogRef = this.dialog.open(StatusDialogComponent, {
+        width: '60vw',
+        maxWidth:'none',
+        data: {
+          date: this.meetingForm.get('date')?.value ,
+          fromTime: this.meetingForm.get('from')?.value,
+          toTime: this.meetingForm.get('to')?.value,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((updatedRooms) => {
+        if (updatedRooms) {
+          this.rooms = updatedRooms;
+        }
+      });
+    }
+  }
+
+  closeDialog(){
+    this.dialogRef.close()
   }
 
 

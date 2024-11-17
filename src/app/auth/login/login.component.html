@@ -1,18 +1,26 @@
 <div class="login-container">
   <div class="login-container__left">
+    Welcome to RoomManager. <br/>
+    Simplify your meeting room bookings with just a few clicks!
+  </div>
+  <div class="login-container__right">
     <div>
       <h4>BOOK A MEETING ROOM</h4>
     </div>
     <form (ngSubmit)="onSubmit()" [formGroup]="loginForm">
-      <div class="login-container__left--username">
-        <label class="login-container__left--username__label">User Name</label>
+      <div class="login-container__right--username">
+        <label class="login-container__right--username__label">User Name</label>
         <input type="text" formControlName="username">
       </div>
-      <div class="login-container__left--password">
-        <label class="login-container__left--password__label">Password</label>
-        <input type="password" formControlName="password">
+      <div class="login-container__right--password">
+        <label class="login-container__right--password__label">Password</label>
+        <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
        </div>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid" class="login-container__left--submit-btn">Login</button>
+       <div class="login-container__right--toggle">
+        <label for="togglePassword">show password</label>
+        <input type="checkbox" (change)="handleTogglePassword()">
+       </div>
+      <button mat-raised-button color="primary" type="submit" [disabled]="!loginForm.valid" class="login-container__right--submit-btn">Login</button>
     </form>
   </div>
   <div>

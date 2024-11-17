@@ -34,88 +34,15 @@
       }
     }
   }
-}
-
-/* Block: book-meeting */
-.book-meeting {
-  padding: 24px;
-  &__title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  &__date-and-time{
-    display: flex;
-    gap: 12px;
-  }
-
-  &__field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  &__label {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #333;
-  }
-
-  &__input,
-  &__select,
-  &__textarea {
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid $secondary-color;
-    border-radius: 4px;
-    outline: none;
-    transition: border-color 0.3s;
-
-    &:focus {
-      border-color:$primary-color;
-    }
-  }
-
-  &__textarea {
-    resize: vertical;
-  }
-
-  &__error {
-    font-size: 0.875rem;
-    color: $danger-color;
-  }
-
-  &__button {
-    padding: 0.8rem;
-    font-size: 1rem;
-    color: $white;
-    background-color: $primary-color;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-
-    &:hover {
-      opacity: 0.8;;
-    }
-
-    &:disabled {
-      background-color: $secondary-color;
-      cursor: not-allowed;
+  &--date-time-field{
+    width: 100vw;
+    @include display-flex();
+    .actions{
+      width: 75vw;
     }
   }
 }
+
 
 #room-select{
   padding: 4px 8px 4px 2px;

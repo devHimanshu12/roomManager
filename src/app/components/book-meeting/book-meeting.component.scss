@@ -2,11 +2,28 @@
 
 
 .book-meeting {
-  padding: 24px;
+  padding: 8px 24px 24px;
+  &__header{
+    @include display-flex($justify:space-between);
+  }
+  &__close{
+    border: 1px solid $secondary-color;
+    border-radius: 50%;
+    padding: 4px;
+    @include display-flex();
+    cursor: pointer;
+    img{
+      width: 20px;
+      height: 20px;
+    }
+    &:hover{
+      opacity: 0.6;
+    }
+  }
   &__title {
-    font-size: 2rem;
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 1rem;
+    margin:0;
     text-align: center;
   }
 
@@ -63,7 +80,7 @@
   &__button {
     padding: 0.8rem;
     font-size: 1rem;
-    color: #fff;
+    color: $dark-color;
     background-color: $primary-color;
     border: none;
     border-radius: 4px;
@@ -84,11 +101,12 @@
 .search-room{
   &--btn{
     padding: 0.8rem;
-    font-size: 1rem;
+    font-size: 16px;
     color: $white;
     background-color: $primary-color;
     border: none;
     border-radius: 4px;
+    margin-right: 24px;
     cursor: pointer;
     transition: background-color 0.3s;
     &:hover {

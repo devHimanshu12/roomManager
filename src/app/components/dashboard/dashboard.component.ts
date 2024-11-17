@@ -11,6 +11,7 @@ import { TableComponent } from '../../shared/table/table.component';
 import { displayBookingColumns, ROOMS } from '../../data';
 import { Meeting } from '../../models/meeting';
 import { MeetingsService } from '../../services/meetings.service';
+import { StatusDialogComponent } from '../status-dialog/status-dialog.component';
 
 
 @Component({
@@ -24,12 +25,15 @@ export class DashboardComponent implements OnInit {
 
   isSmallDevice:boolean = false;
   meetings: Meeting[] = []; // Array to store meetings fetched from localStorage
+  rooms:any[]=ROOMS
   meetingColumns = displayBookingColumns
   upcomingMeetings:Meeting[]=[];
   selectedRoomMeetins:Meeting[]=[];
-  rooms = ROOMS; // List of all rooms
   filteredMeetings: any[] = []; // Array to store filtered meetings
   selectedRoom: number = 1; // Selected room ID
+  selectedDate: string = '';
+  selectedFromTime: string = '';
+  selectedToTime: string = '';
 
 
   constructor(private dialog: MatDialog,
@@ -46,7 +50,7 @@ export class DashboardComponent implements OnInit {
 
   handleDialog(){
     const config = {
-      width: this.isSmallDevice ? '100vw' : '60vw',
+      width: this.isSmallDevice ? '100vw' : '50vw',
       maxWidth:'none',
     }
     if(this.isSmallDevice){
@@ -82,7 +86,4 @@ export class DashboardComponent implements OnInit {
       this.filterMeetingsByRoom()
     }
   }
-
-
-
 }

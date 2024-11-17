@@ -9,3 +9,7 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 background-color: #F6F6F6; }
+
+.cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.8); /* Customize the color and transparency here */
+}

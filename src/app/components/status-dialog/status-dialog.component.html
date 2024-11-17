@@ -1,0 +1,34 @@
+<div class="status-dialog">
+  <h2 class="status-dialog__header">Meeting Room Status</h2>
+
+  <div class="status-dialog__container">
+    <!-- Loop through rooms -->
+     @for(room of rooms; track room.id){
+       <div
+         class="status-dialog__container__room"
+         [ngClass]="{
+           'status-dialog__container__room--available': room.status === 'Available',
+           'status-dialog__container__room--in-use': room.status === 'In-Use',
+           'status-dialog__container__room--booked': room.status === 'Booked'
+         }"
+       >
+         <h3 class="status-dialog__container__room__name">{{ room.name }}</h3>
+         <p class="status-dialog__container__room__status">Status: {{ room.status }}</p>
+
+         <!-- Show user details only for Booked and In-Use rooms -->
+         @if(room.status !== 'Available'){
+           <p class="status-dialog__container__room__details">
+             <span class="status-dialog__container__room__details--user">User:</span> {{ room.username }}
+           </p>
+           <p class="status-dialog__container__room__details">
+             <span class="status-dialog__container__room__details--time">Time:</span> {{room.currentMeeting}}
+           </p>
+         }
+       </div>
+     }
+  </div>
+
+  <div class="status-dialog__footer">
+    <button (click)="closeDialog()">Close</button>
+  </div>
+</div>

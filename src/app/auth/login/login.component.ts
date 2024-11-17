@@ -14,6 +14,7 @@ import { AuthService } from '../auth.service';
 export class LoginComponent implements OnInit {
 
   loginForm!:FormGroup;
+  showPassword:boolean=false;
 
   constructor(private authService: AuthService, private router: Router) {
     this.createLoginGroup()
@@ -45,6 +46,10 @@ export class LoginComponent implements OnInit {
 
   get getPassword(){
     return this.loginForm.get('password')?.value
+  }
+
+  handleTogglePassword(){
+    this.showPassword = !this.showPassword
   }
 
 
