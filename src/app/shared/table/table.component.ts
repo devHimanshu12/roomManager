@@ -1,6 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { Meeting } from '../../models/meeting';
 
+export type MeetingTableHeader = {
+  label:string;
+  key:string;
+}
+
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -10,10 +15,9 @@ import { Meeting } from '../../models/meeting';
 })
 export class TableComponent {
 
-  @Input() roomName!: string; // Name of the room passed as input
-  @Input() meetings: Meeting[] = []; // List of meetings passed as input
-
-  columns: string[] = ['username', 'date', 'time', 'agenda', 'actions'];
+  @Input({required:true}) items: Meeting[] = []; // List of meetings passed as input
+  @Input({required:true}) displayColumns : MeetingTableHeader[] = []
+  @Input() isAction:boolean =false;
 
   constructor() {}
 
@@ -23,9 +27,9 @@ export class TableComponent {
    * Deletes a meeting from the list by ID.
    * @param id - Meeting ID to be deleted
    */
-  deleteMeeting(id: string): void {
-    this.meetings = this.meetings.filter((meeting) => meeting.id !== id);
-    localStorage.setItem('meetings', JSON.stringify(this.meetings));
+  deleteMeeting(selectedItem: Meeting): void {
+    this.items = this.items.filter((item) => item.date !== selectedItem.date && item.to !== selectedItem.to && item.from !== selectedItem.from);
+    localStorage.setItem('meetings', JSON.stringify(this.items));
     alert('Meeting deleted successfully.');
   }
 

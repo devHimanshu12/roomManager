@@ -3,9 +3,11 @@ export interface Meeting {
   username: string;
   room: string;
   date: string;
-  timeFrom: string;
-  timeTo: string;
+  from: string;
+  to: string;
   agenda: string;
 }
+
+
 
 

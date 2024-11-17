@@ -1,37 +1,43 @@
 <div class="room-details">
-  <h1 class="room-details__title">{{ roomName }} Details</h1>
+  @if(items.length){
+    <table class="room-details__table">
+      <thead>
+        <tr>
+          @for(header of displayColumns; track header.key){
+            <th class="room-details__table__header">{{header.label}}</th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for(item of items; track item.id; let idx = $index){
+          <tr>
+            <td class="room-details__cell">{{idx+1}}</td>
+            <td class="room-details__cell">{{ item.username }}</td>
+            <td class="room-details__cell">{{ item.agenda }}</td>
+            <td class="room-details__cell">{{ item.date }}</td>
+            <td class="room-details__cell">
+              {{ item.from }} - {{ item.to }}
+            </td>
+            <td class="room-details__cell">{{ '#Room'+ item.room }}</td>
 
-  <p *ngIf="meetings.length === 0" class="room-details__no-meetings">
-    No meetings scheduled for this room.
-  </p>
+            @if(isAction){
+              <td class="room-details__cell">
+                <button
+                  class="room-details__button room-details--delete-btn"
+                  (click)="deleteMeeting(item)"
+                >
+                  Delete
+                </button>
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  }@else{
+    <p class="room-details__no-meetings">
+      {{isAction ? 'No meetings scheduled for this room' : 'All slots are available for the selected room'}}
+    </p>
+  }
+
 </div>
-<table class="room-details__table">
-  <thead>
-    <tr>
-      <th class="room-details__header">Username</th>
-      <th class="room-details__header">Date</th>
-      <th class="room-details__header">Time</th>
-      <th class="room-details__header">Agenda</th>
-      <th class="room-details__header">Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for(meeting of meetings; track meeting.id){
-      <tr>
-        <td class="room-details__cell">{{ meeting.username }}</td>
-        <td class="room-details__cell">
-          {{ meeting.timeFrom }} - {{ meeting.timeTo }}
-        </td>
-        <td class="room-details__cell">{{ meeting.agenda }}</td>
-        <td class="room-details__cell">
-          <button
-            class="room-details__button room-details__button--delete"
-            (click)="deleteMeeting(meeting.id)"
-          >
-            Delete
-          </button>
-        </td>
-      </tr>
-    }
-  </tbody>
-</table>

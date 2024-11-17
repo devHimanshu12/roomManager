@@ -11,8 +11,28 @@ export const ROOMS = [
   { id: 10, name: 'Room 10' },
 ];
 
-export const displayBookingDetails = [
-  {label:'Sr No.',
-    
+export const displayBookingColumns = [
+  {
+    label:'Sr no.',
+    key:'serial_no'
+  },
+  {
+    label:'User Name',
+    key:'username'
+  },{
+    label:'Agenda',
+    key:'agenda'
+  },{
+    label:'Date',
+    key:'date'
+  },{
+    label:'Time',
+    key:'time'
+  },{
+    label:'Room',
+    key:'room'
+  },{
+    label:'Action',
+    key:'action'
   }
 ]

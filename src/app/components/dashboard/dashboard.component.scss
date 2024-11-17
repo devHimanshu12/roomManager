@@ -27,6 +27,7 @@
         border: 1px solid $secondary-color;
         border-radius: 10px;
         padding: 16px;
+        width: 80vw;
       }
     }
   }
@@ -111,6 +112,12 @@
       cursor: not-allowed;
     }
   }
+}
+
+#room-select{
+  padding: 4px 8px 4px 2px;
+  margin-left: 8px;
+  border-radius: 4px;
 }
 
 
