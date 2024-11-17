@@ -14,7 +14,7 @@
             <td class="room-details__cell">{{idx+1}}</td>
             <td class="room-details__cell">{{ item.username }}</td>
             <td class="room-details__cell">{{ item.agenda }}</td>
-            <td class="room-details__cell">{{ item.date }}</td>
+            <td class="room-details__cell">{{ item.date | date:'dd-MM-yyyy' }}</td>
             <td class="room-details__cell">
               {{ item.from }} - {{ item.to }}
             </td>
@@ -24,7 +24,7 @@
               <td class="room-details__cell">
                 <button
                   class="room-details__button room-details--delete-btn"
-                  (click)="deleteMeeting(item)"
+                  (click)="handleDelete(item)"
                 >
                   Delete
                 </button>

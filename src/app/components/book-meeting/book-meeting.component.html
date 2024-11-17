@@ -46,8 +46,7 @@
           class="book-meeting__input"
           type="time"
           formControlName="from"
-          [min]="minTime"
-          [max]="maxTime"
+          [min]="currentTime"
           required
         />
         @if(meetingForm.get('from')?.hasError('required') && (meetingForm.get('from')?.touched || meetingForm.get('from')?.dirty)){
@@ -90,7 +89,7 @@
           formControlName="room"
           required
         >
-        @for(room of rooms; track room.id ){
+        @for(room of availableRooms; track room.id ){
           <option  [value]="room.id">{{ room.name }}</option>
         }
         </select>

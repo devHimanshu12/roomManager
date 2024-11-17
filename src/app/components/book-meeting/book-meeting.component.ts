@@ -6,6 +6,7 @@ import { ROOMS } from '../../data';
 import { AuthService } from '../../auth/auth.service';
 import { min } from 'rxjs';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MeetingsService } from '../../services/meetings.service';
 
 @Component({
   selector: 'app-book-meeting',
@@ -16,21 +17,21 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class BookMeetingComponent implements OnInit {
 
-
-  rooms = ROOMS
   meetingForm!: FormGroup;
   isSearchRoomClicked:boolean = false;
   minDate!:string;
-  minTime: string = '09:00';
-  maxTime: string = '18:00';
+  currentTime!:string;
+  availableRooms:any[]=[]
 
   constructor(private fb: FormBuilder,private authService:AuthService,
-    private dialogRef: MatDialogRef<BookMeetingComponent>
+    private dialogRef: MatDialogRef<BookMeetingComponent>,
+    private meetingService:MeetingsService
   ){
-    const today = new Date();
 
+    const today = new Date();
     // to disable previous date in date picker input
     this.minDate = today.toISOString().split('T')[0]
+    this.currentTime = today.getTime().toString()
 
   }
 
@@ -103,14 +104,14 @@ export class BookMeetingComponent implements OnInit {
 
     if (this.meetingForm.valid) {
       const meetingDetails = this.meetingForm.value;
+      meetingDetails.id = this.generateUniqueId()
       console.log('Meeting Booked:', meetingDetails);
 
       // Save to local storage or pass to a service
       const meetings = JSON.parse(localStorage.getItem('meetings') || '[]');
       meetings.push(meetingDetails);
       localStorage.setItem('meetings', JSON.stringify(meetings));
-      console.log(meetings);
-
+      
       // Reset the form after successful submission
       this.meetingForm.reset();
       this.dialogRef.close()
@@ -120,10 +121,27 @@ export class BookMeetingComponent implements OnInit {
     }
   }
 
+  private generateUniqueId(): string {
+    const timestamp = Date.now(); // Get current timestamp
+    const randomNum = Math.floor(Math.random() * 10000); // Generate a random number
+    return `${timestamp}-${randomNum}`; // Combine for uniqueness
+  }
+
 
   handleSearchRoom(){
-    console.log(this.meetingForm.get('date'));
+    const x = new Date()
+    const today = new Date(x.getFullYear(),x.getMonth(),x.getDate())
+    const myDate = new Date(this.meetingForm.get('date')?.value)
+    const currentTime = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})
 
+    const inputFromTime = this.meetingForm.get('from')?.value
+    console.log(currentTime,inputFromTime)
+    if(today.toDateString() === myDate.toDateString()){
+      if(inputFromTime <= currentTime){
+        alert('Please select time more than current time or select date other than today')
+        return
+      }
+    }
     if (
       !this.meetingForm.get('date')?.value ||
       !this.meetingForm.get('from')?.value ||
@@ -147,6 +165,11 @@ export class BookMeetingComponent implements OnInit {
       return;
     }
 
+    const date = this.meetingForm.get('date')?.value;
+    const fromTime = this.meetingForm.get('from')?.value;
+    const toTime = this.meetingForm.get('to')?.value
+
+    this.availableRooms = this.meetingService.fetchAvailableRooms(date,fromTime,toTime)
     this.isSearchRoomClicked = true;
   }
 

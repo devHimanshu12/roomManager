@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { FormsModule } from '@angular/forms';
 
 // import services and component
+import { HeaderComponent } from '../../shared/header/header.component';
 import { LayoutService } from '../../services/layout.service';
 import { BookMeetingComponent } from '../book-meeting/book-meeting.component';
 import { TableComponent } from '../../shared/table/table.component';
 import { displayBookingColumns, ROOMS } from '../../data';
 import { Meeting } from '../../models/meeting';
-import { FormsModule } from '@angular/forms';
+import { MeetingsService } from '../../services/meetings.service';
 
 
 @Component({
@@ -31,17 +32,15 @@ export class DashboardComponent implements OnInit {
   selectedRoom: number = 1; // Selected room ID
 
 
-
-
   constructor(private dialog: MatDialog,
               private bottomSheet: MatBottomSheet,
-              private layoutService:LayoutService){
+              private layoutService:LayoutService,
+              private meetingService:MeetingsService){
     this.isSmallDevice = this.layoutService.getSmallDevice()
   }
 
   ngOnInit(): void {
-    // const meetings = JSON.parse(localStorage.getItem('meetings') || '[]');
-    this.upcomingMeetings = this.fetchMeetings();
+    this.upcomingMeetings = this.meetingService.fetchMeetings()
     this.filterMeetingsByRoom()
   }
 
@@ -55,32 +54,33 @@ export class DashboardComponent implements OnInit {
     }else{
      const dialogRef = this.dialog.open(BookMeetingComponent,config)
      dialogRef.afterClosed().subscribe(()=>{
-      this.upcomingMeetings = this.fetchMeetings();
+      this.upcomingMeetings = this.meetingService.fetchMeetings()
+      this.filterMeetingsByRoom()
      })
     }
   }
 
 
-  /**
-   * Fetch meetings from localStorage
-   */
-  fetchMeetings(): Meeting[] {
-    const storedMeetings = JSON.parse(localStorage.getItem('meetings') || '[]');
-    return storedMeetings
-  }
 
    /**
    * Filters meetings by the selected room
    */
    filterMeetingsByRoom(): void {
-    const meetings = this.fetchMeetings()
+    const meetings = this.meetingService.fetchMeetings()
     if (this.selectedRoom) {
       this.filteredMeetings = meetings.filter(
         (meeting:Meeting) => +meeting.room == this.selectedRoom
       );
-      console.log(this.selectedRoom,this.filteredMeetings,meetings);
     }
+  }
 
+  handleDelete(deletedMeeting:Meeting){
+    const confirmDelete = confirm('Are you sure you want to delete this meeting?');
+    if(confirmDelete){
+      this.meetingService.deleteMeeting(deletedMeeting)
+      this.upcomingMeetings = this.meetingService.fetchMeetings()
+      this.filterMeetingsByRoom()
+    }
   }
 
 
