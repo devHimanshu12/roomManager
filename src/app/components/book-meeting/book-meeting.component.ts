@@ -147,7 +147,7 @@ export class BookMeetingComponent implements OnInit {
     const currentTime = new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})
     const inputFromTime = this.meetingForm.get('from')?.value
     if(today.toDateString() === myDate.toDateString()){
-      if(inputFromTime <= currentTime){
+      if(inputFromTime < currentTime){
         alert('Please select time more than current time or select date other than today')
         return
       }
