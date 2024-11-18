@@ -34,8 +34,8 @@ describe('AuthService', () => {
   it('should not log in with incorrect credentials', () => {
     const result = service.login('user', 'wrongPassword');
     expect(result).toBeFalse();
-    expect(localStorage.getItem('isLoggedIn')).toBeFalsy();
-    expect(localStorage.getItem('loggedInUser')).toBeFalsy();
+    expect(localStorage.getItem('isLoggedIn')).toBeNull();
+    expect(localStorage.getItem('loggedInUser')).toBeNull();
   });
 
   it('should log out the user', () => {
@@ -47,7 +47,7 @@ describe('AuthService', () => {
     expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 
-  it('should return true if the user is logged in', () => {
+    it('should return true if the user is logged in', () => {
     localStorage.setItem('isLoggedIn', 'true');
     expect(service.isLoggedIn()).toBeTrue();
   });

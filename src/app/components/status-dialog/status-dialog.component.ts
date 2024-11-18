@@ -33,7 +33,6 @@ export class StatusDialogComponent {
     const allMeetings = this.meetingsService.fetchMeetings();
 
     this.rooms = this.meetingsService.rooms.map((room) => {
-      console.log(room);
 
       const currentMeeting = allMeetings.find(
         (meeting) =>

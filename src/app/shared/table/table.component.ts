@@ -27,16 +27,6 @@ export class TableComponent {
 
   ngOnInit(): void {}
 
-  // /**
-  //  * Deletes a meeting from the list by ID.
-  //  * @param id - Meeting ID to be deleted
-  //  */
-  // deleteMeeting(selectedItem: Meeting): void {
-  //   this.items = this.items.filter((item) => item.date !== selectedItem.date && item.to !== selectedItem.to && item.from !== selectedItem.from);
-  //   localStorage.setItem('meetings', JSON.stringify(this.items));
-  //   alert('Meeting deleted successfully.');
-  // }
-
   handleDelete(selectedItem:Meeting){
     this.emitDeletedItem.emit(selectedItem)
   }

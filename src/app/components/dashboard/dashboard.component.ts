@@ -72,7 +72,7 @@ export class DashboardComponent implements OnInit {
    filterMeetingsByRoom(): void {
     const meetings = this.meetingService.fetchMeetings()
     if (this.selectedRoom) {
-      this.filteredMeetings = meetings.filter(
+      this.filteredMeetings = meetings?.filter(
         (meeting:Meeting) => +meeting.room == this.selectedRoom
       );
     }
